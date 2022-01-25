@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express();
 const postSchema = require("../Schema/PostSchema");
-const path = require('path');
 const fs = require('fs');
 
 router.get("/", (req, res) => {
@@ -10,18 +9,19 @@ router.get("/", (req, res) => {
 
 router.route('/upload').post((req, res) => {
 	console.log('Req.files => ', req.files);
-	if (!req.files || Object.keys(req.files).length === 0) {
-		console.log('No photo selected');
-		return res.status(400).send('No files were uploaded.');
-	}
-	var sampleFile = req.files.image;
-	console.log('SampleFile => ', sampleFile);
-	fs.readFile(sampleFile.path, function (err, data) {
-		var path = './Routes/post_images' + '/' + sampleFile.name;
-		fs.writeFile(path, data, function (err) {
-			console.log(err);
-		});
-	});
+	console.log("REQ.BODY>>>", req.body);
+	// if (!req.files || Object.keys(req.files).length === 0) {
+	// 	console.log('No photo selected');
+	// 	return res.status(400).send('No files were uploaded.');
+	// }
+	// var sampleFile = req.files.image;
+	// console.log('SampleFile => ', sampleFile);
+	// fs.readFile(sampleFile.path, function (err, data) {
+	// 	var path = './Routes/post_images/' + sampleFile.name;
+	// 	fs.writeFile(path, data, function (err) {
+	// 		console.log(err);
+	// 	});
+	// });
 
 	const date = new Date();
 	const { title, category, userName, likes = [] } = req.body || {};
@@ -31,28 +31,29 @@ router.route('/upload').post((req, res) => {
 		category,
 		userName,
 		likes,
-		image: 'post_images/' + sampleFile.name,
+		// image: 'post_images/' + sampleFile.name,
 		time: new Date().toLocaleTimeString(),
 		date: new Date().toLocaleDateString(),
 	})
+	// res.save("---");
 
-	posts.save()
-		.then((result) => {
-			console.log("route>>>post>>>upload>>>", result);
-			res.send({
-				success: true,
-				data: result,
-				message: 'Post Uploaded'
-			});
-		})
-		.catch((err) => console.log("route>>>post>>>err>>>", err));
-
+	// posts.save()
+	// 	.then((result) => {
+	// 		console.log("route>>>post>>>upload>>>", result);
+	// 		res.send({
+	// 			success: true,
+	// 			data: result,
+	// 			message: 'Post Uploaded'
+	// 		});
+	// 	})
+	// 	.catch((err) => console.log("route>>>post>>>err>>>", err));
 
 });
 
 // $ git remote set-url origin https://<>:<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>@github.com/path/to/repo.git
 
 // git remote set-url origin https://github.com/varunsaini21/PPL.git
+// git remote add origin https://github.com/varunsaini21/ppl_server.git
 router.route("/present").get((req, res) => {
 	postSchema.find()
 		.then(posts => {
