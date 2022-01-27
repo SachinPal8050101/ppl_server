@@ -8,7 +8,7 @@ router.get("/", (req, res) => {
 });
 
 router.route('/upload').post((req, res) => {
-	console.log('Req.files => ', req.files);
+	console.log('Req.files => ', req);
 	console.log("REQ.BODY>>>", req.body);
 	// if (!req.files || Object.keys(req.files).length === 0) {
 	// 	console.log('No photo selected');
