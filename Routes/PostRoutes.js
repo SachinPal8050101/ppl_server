@@ -10,17 +10,18 @@ router.get("/", (req, res) => {
 router.route('/upload').post((req, res) => {
 	console.log('Req.files => ', req);
 	console.log("REQ.BODY>>>", req.body);
-	// if (!req.files || Object.keys(req.files).length === 0) {
-	// 	console.log('No photo selected');
-	// 	return res.status(400).send('No files were uploaded.');
-	// }
-	// var sampleFile = req.files.image;
-	// console.log('SampleFile => ', sampleFile);
-	// fs.readFile(sampleFile.path, function (err, data) {
-	// 	var path = './Routes/post_images/' + sampleFile.name;
-	// 	fs.writeFile(path, data, function (err) {
-	// 		console.log(err);
-	// 	});
+	if (!req.files || Object.keys(req.files).length === 0) {
+		console.log('No photo selected');
+		return res.status(400).send('No files were uploaded.');
+	}
+	var sampleFile = req.files.image;
+	var path =sampleFile.data
+	console.log('SampleFile => ', sampleFile);
+	// fs.readFile(sampleFile.name, function (err, data) {
+		var path = './Routes/post_images/' + sampleFile.name;
+		fs.writeFile(path,sampleFile.data, function (err) {
+			console.log(err);
+		});
 	// });
 
 	const date = new Date();
